@@ -4,11 +4,7 @@ from rest_framework import routers
 from . import api
 
 router = routers.DefaultRouter()
-router.register(r'test', api.TestViewSet)
-router.register(r'testquestion', api.TestQuestionViewSet)
-router.register(r'testquestionvariant', api.TestQuestionVariantViewSet)
-router.register(r'studenttest', api.StudentTestViewSet)
-router.register(r'studenttestanswer', api.StudentTestAnswerViewSet)
+
 
 
 urlpatterns = (

@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models as models
 from django_extensions.db import fields as extension_fields
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Article(models.Model):
@@ -12,7 +13,7 @@ class Article(models.Model):
     slug = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
-    text = models.TextField()
+    text = RichTextUploadingField()
 
     class Meta:
         ordering = ('-created',)

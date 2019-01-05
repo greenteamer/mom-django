@@ -6,10 +6,16 @@
   <div id="home">
     <!-- Text Section -->
     <div class="row">
+      <section class="slogan line col-md-12 padding_30">
+        <p>"Основы химии - любимое моё дитя. В них мой образ, мой опыт педагога и мои задушевные мысли."</p>
+        <p class="mendeleev">Дмитрий Менделеев</p>
+      </section>
+    </div>
+    <div class="row">
       <section class="about-me line col-md-12 padding_30 padbot_45">
         <div class="section-title"><span></span>
           <h2>{{ about.name }}</h2></div>
-        <p class="top_30">{{ about.text }}</p>
+        <p class="top_30">{{ about.text|safe }}</p>
 
         {% for article in articles %}
           {% include "core/common/article.html" with article=article only %}
