@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+  <!-- Home Page
+================================================== -->
+  <div id="login">
+    <!-- Text Section -->
+    <div class="row">
+      <section class="about-me col-md-12 padding_30 padbot_45">
+        
+        <div class="section-title">
+          <h4>Войти через:</h4>
+          <div class="hidden-md social-icons">
+            <a class="vk" href="{% provider_login_url "vk" %}" aria-hidden="true"><i class="fab fa-vk"></i></a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+{% endblock %}

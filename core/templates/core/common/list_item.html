@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-8">
+    <img src="{{ item.image.url }}" width="120" style="float: left; margin-right: 8px;" />
+    <div class="datenlocation"><span>{{ item.name }}</span>{{ item.date }}</div>
+    <div class="event-content">{{ item.text|safe }}</div>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ item.get_absolute_url }}" class="site-btn black icon">Читать<i class="fa fa-chevron-right" aria-hidden="true"></i>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <!-- Home Page
+================================================== -->
+  <div id="home">
+    <!-- Text Section -->
+    <div class="row">
+      <section class="about-me col-md-12 padding_30 padbot_45">
+        <div class="section-title">
+          <h2>{{ item.name }}</h2>
+        </div>
+        <p class="top_30">{{ item.text|safe }}</p>
+      </section>
+    </div>
+  </div>
+{% endblock %}

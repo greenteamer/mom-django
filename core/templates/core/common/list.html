@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <!-- Home Page
+================================================== -->
+  <div id="home">
+    <!-- Upcoming Events Section -->
+    <div class="row">
+      <section class="events col-md-12 padding_30">
+        <div class="section-title top_30 bottom_45">
+          <h2>{{ title }}</h2>
+        </div>
+        <ul>
+          {% for item in items %}
+            <li>
+              {% include "core/common/list_item.html" with item=item only %}
+            </li>
+            <hr>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+  </div>
+{% endblock %}

@@ -12,113 +12,64 @@
       </section>
     </div>
     <div class="row">
-      <section class="about-me line col-md-12 padding_30 padbot_45">
-        <div class="section-title"><span></span>
-          <h2>{{ about.name }}</h2></div>
+      <section class="about-me col-md-6 padding_30 padbot_45">
+        <i class="fas fa-comments"></i>
+        <div class="section-title">
+          <h2>{{ about.name }}</h2>
+        </div>
         <p class="top_30">{{ about.text|safe }}</p>
-
-        {% for article in articles %}
-          {% include "core/common/article.html" with article=article only %}
-        {% endfor %}
-
+      </section>
+      <section class="about-me col-md-6 padding_30 padbot_45">
+        <i class="fas fa-comment"></i>
+        <div class="section-title">
+          <h2>{{ forAll.name }}</h2>
+        </div>
+        <p class="top_30">{{ forAll.text|safe }}</p>
       </section>
     </div>
+
+    {#        {% for article in articles %}#}
+    {#          {% include "core/common/article.html" with article=article only %}#}
+    {#        {% endfor %}#}
+
     <!-- My Services Section -->
     <div class="row">
       <section class="services line graybg col-md-12 padding_50 padbot_50">
-        <div class="section-title bottom_45"><span></span>
-          <h2>My Services</h2></div>
+        <div class="section-title bottom_45">
+          <h2>Виды подготовки</h2></div>
         <div class="row">
-          <!-- a service -->
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="service">
-              <div class="icon">
-                <i class="flaticon-acoustic-guitar"></i>
+
+          {% for service in services %}
+            <!-- a service -->
+            <a href="{{ service.get_absolute_url }}">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="service">
+                <div class="icon">
+                  {{ service.icon|safe }}
+                </div>
+                <span class="title">{{ service.name }}</span>
+                <p class="little-text">{{ service.preText }}</p>
               </div>
-              <span class="title">Acoustic Guitar</span>
-              <p class="little-text">I've been playing acoustic guitar since I was 8 years old.</p>
             </div>
-          </div>
-          <!-- a service -->
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="service">
-              <div class="icon">
-                <i class="flaticon-microphone-1"></i>
-              </div>
-              <span class="title">Singing</span>
-              <p class="little-text">I like singing at least as much as playing guitar. </p>
-            </div>
-          </div>
-          <!-- a service -->
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="service">
-              <div class="icon">
-                <i class="flaticon-drumsticks"></i>
-              </div>
-              <span class="title">Drum</span>
-              <p class="little-text">It is very enjoyable for me to play drums.</p>
-            </div>
-          </div>
-          <!-- a service -->
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="service">
-              <div class="icon">
-                <i class="flaticon-sound-frecuency"></i>
-              </div>
-              <span class="title">Arranger</span>
-              <p class="little-text">I can create a songbird infrastructure. </p>
-            </div>
-          </div>
+            </a>
+          {% endfor %}
+
         </div>
       </section>
     </div>
     <!-- Upcoming Events Section -->
     <div class="row">
       <section class="events col-md-12 padding_30">
-        <div class="section-title top_30 bottom_45"><span></span>
-          <h2>Upcoming Events</h2></div>
+        <div class="section-title top_30 bottom_45">
+          <h2>События</h2>
+        </div>
         <ul>
-          <!-- a event -->
-          <li>
-            <div class="row">
-              <div class="col-md-8">
-                <div class="datenlocation"><span>The Wiltern, Los Angeles, CA,</span> November 13, 17</div>
-                <div class="event-content">Matisyahu, Common Kings, Orphan, and Zion</div>
-              </div>
-              <div class="col-md-4">
-                <button class="site-btn black icon">Get Ticket<i class="fa fa-chevron-right" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-            <hr>
-          </li>
-          <!-- a event -->
-          <li>
-            <div class="row">
-              <div class="col-md-8">
-                <div class="datenlocation"><span>The Observatory, Santa Ana, CA,</span> November 22, 17</div>
-                <div class="event-content">Power Trip and Gatecreeper</div>
-              </div>
-              <div class="col-md-4">
-                <button class="site-btn black icon">Get Ticket<i class="fa fa-chevron-right" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-            <hr>
-          </li>
-          <!-- a event -->
-          <li>
-            <div class="row bottom_30">
-              <div class="col-md-8">
-                <div class="datenlocation"><span>The Roxy Theatre, West Hollywood, CA,</span> November 30, 17</div>
-                <div class="event-content">Gina & the Eastern Block</div>
-              </div>
-              <div class="col-md-4">
-                <button class="site-btn black icon">Get Ticket<i class="fa fa-chevron-right" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-          </li>
+          {% for event in events %}
+            <li>
+              {% include "core/common/list_item.html" with item=event only %}
+              <hr>
+            </li>
+          {% endfor %}
         </ul>
       </section>
     </div>

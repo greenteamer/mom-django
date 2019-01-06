@@ -131,6 +131,20 @@ hr{
     margin-top: 4px;
 }
 
+.site-btn-blue.icon i {
+    color: white;
+    background: #3573bf;
+    margin-left: 15px;
+    border-radius: 50px;
+    font-size: 28px;
+    height: 27px;
+    width: 27px;
+    float: right;
+    text-align: center;
+    line-height: 27px;
+    margin-top: 4px;
+}
+
 #content{
     background: #fff;
     box-shadow: 0px 2px 92px 0px rgba(0, 0, 0, 0.07);
@@ -534,12 +548,26 @@ header nav .site-btn{
     display: inline-block;
 }
 
+#profile .social-icons a,
+#login .social-icons a {
+    color: #000;
+    font-size: 20px;
+    transition: all ease 0.2s;
+    width: 24px;
+    height: 18px;
+    display: inline-block;
+    margin: 8px;
+}
 
 .social-icons a:hover {
-    font-size: 14px;
 }
 
 .fb:hover{
+    color: #3b5998!important;
+    transition: all ease 0.2s;
+}
+
+.vk:hover{
     color: #3b5998!important;
     transition: all ease 0.2s;
 }

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <!-- Home Page
+================================================== -->
+  <div id="profile">
+    <!-- Text Section -->
+    <div class="row">
+      <section class="about-me col-md-12 padding_30 padbot_45">
+        <i class="fas fa-comments"></i>
+        <div class="section-title">
+          <h2>Profile {{ request.user.username }}</h2>
+        </div>
+        <!-- <p class="top_30">Content</p> -->
+        <form method="post" action="/accounts/logout/">{% csrf_token %}
+            <button class="site-btn" type="submit">Sign Out</button>
+        </form>
+      </section>
+    </div>
+  </div>
+{% endblock %}
