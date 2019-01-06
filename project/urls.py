@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('core.urls')),
     path('', include('profiles.urls')),
+    path('', include('tests.urls')),
     # path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('grappelli/', include('grappelli.urls')), # grappelli URLS

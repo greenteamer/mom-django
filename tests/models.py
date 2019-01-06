@@ -12,7 +12,7 @@ class Test(models.Model):
     slug = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
-    text = models.TextField()
+    text = models.TextField(blank=True, null=True)
 
     class Meta:
         ordering = ('-created',)
@@ -25,6 +25,9 @@ class Test(models.Model):
 
     def get_update_url(self):
         return reverse('tests_test_update', args=(self.slug,))
+
+    def get_questions(self):
+        return TestQuestion.objects.filter(test=self)
 
 
 class TestQuestion(models.Model):

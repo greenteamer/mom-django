@@ -17,17 +17,9 @@ class TestQuestionInline(nested_admin.NestedTabularInline):
 
 class TestAdmin(nested_admin.NestedModelAdmin):
     model = Test
-    # list_display = ['name', 'slug', 'created', 'last_updated', 'text']
+    list_display = ['name', 'slug', 'created', 'last_updated', 'text']
     readonly_fields = ['created', 'last_updated']
-    fieldsets = (
-        (None, {
-            'fields': ()
-        }),
-        ('Основная информация', {
-            'classes': ('grp-collapse grp-closed',),
-            'fields': ('name', 'text', ),
-        }),
-    )
+    prepopulated_fields = {'slug': ('name',), }
     inlines = [
         TestQuestionInline,
     ]
