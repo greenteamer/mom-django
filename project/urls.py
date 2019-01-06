@@ -21,7 +21,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('core.urls')),
     path('', include('profiles.urls')),
+    # path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+    path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
+    path('nested_admin/', include('nested_admin.urls')),
     path(r'^ckeditor/', include('ckeditor_uploader.urls')),
     path('accounts/', include('allauth.urls')),
     # url(r'^accounts/', include('allauth.urls')),

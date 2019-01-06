@@ -1,21 +1,42 @@
 from django.contrib import admin
 from django import forms
 from .models import Test, TestQuestion, TestQuestionVariant, StudentTest, StudentTestAnswer
+import nested_admin
 
 
-class TestAdminForm(forms.ModelForm):
-
-    class Meta:
-        model = Test
-        fields = '__all__'
+class TestQuestionVariantNested(nested_admin.NestedTabularInline):
+    model = TestQuestionVariant
+    classes = ('grp-collapse grp-open',)
 
 
-class TestAdmin(admin.ModelAdmin):
-    form = TestAdminForm
-    list_display = ['name', 'slug', 'created', 'last_updated', 'text']
+class TestQuestionInline(nested_admin.NestedTabularInline):
+    model = TestQuestion
+    inlines = [TestQuestionVariantNested, ]
+    classes = ('grp-collapse grp-open',)
+
+
+class TestAdmin(nested_admin.NestedModelAdmin):
+    model = Test
+    # list_display = ['name', 'slug', 'created', 'last_updated', 'text']
     readonly_fields = ['created', 'last_updated']
+    fieldsets = (
+        (None, {
+            'fields': ()
+        }),
+        ('Основная информация', {
+            'classes': ('grp-collapse grp-closed',),
+            'fields': ('name', 'text', ),
+        }),
+    )
+    inlines = [
+        TestQuestionInline,
+    ]
 
 admin.site.register(Test, TestAdmin)
+
+
+class TestQuestionVariantInline(admin.TabularInline):
+    model = TestQuestionVariant
 
 
 class TestQuestionAdminForm(forms.ModelForm):
@@ -28,6 +49,7 @@ class TestQuestionAdminForm(forms.ModelForm):
 class TestQuestionAdmin(admin.ModelAdmin):
     form = TestQuestionAdminForm
     list_display = ['name', 'text', 'points']
+    inlines = [TestQuestionVariantInline, ]
 
 admin.site.register(TestQuestion, TestQuestionAdmin)
 

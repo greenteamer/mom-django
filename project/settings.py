@@ -34,6 +34,9 @@ LOGIN_REDIRECT_URL = '/profile/';
 # Application definition
 
 INSTALLED_APPS = [
+    # 'jet.dashboard',
+    # 'jet',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'crispy_forms',
     'rest_framework',
+    'nested_admin',
 
     # ckeditor
     'ckeditor',
