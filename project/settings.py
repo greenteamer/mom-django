@@ -47,7 +47,11 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'crispy_forms',
+
+    # rest_framework
+    # 'rest_framework.authtoken',
     'rest_framework',
+
     'nested_admin',
 
     # ckeditor
@@ -102,6 +106,14 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 WSGI_APPLICATION = 'project.wsgi.application'
 

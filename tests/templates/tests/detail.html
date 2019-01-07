@@ -33,30 +33,12 @@
         </form>
       </section>
     </div>
-    <div id="app">
-        <div class="section-title">
-            <h2>[[ test.name ]]</h2>
-        </div>
-        <span v-bind:title="message">
-            Наведи на меня курсор на пару секунд,
-            чтобы увидеть динамически связанное значение title!
-        </span>
-        <ul>
-            <question-item
-                v-for="question in test.questions"
-                v-bind:question="question"
-                v-bind:key="question.id"
-            >
-            </question-item>
-            <button v-on:click="handleOnClick">add question</button>
-        </ul>
-    </div>
+    <div id="react"></div>
   </div>
 {% endblock %}
 
 
 {% block scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="{% static 'js/tests/main.js' %}"></script>
+    <script src="{% static 'js/react/dist/bundle.js' %}"></script>
 {% endblock scripts %}
     
