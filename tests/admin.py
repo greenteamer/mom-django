@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django import forms
-from .models import Test, TestQuestion, TestQuestionVariant, StudentTest, StudentTestAnswer
+from .models import Test, TestQuestion, TestQuestionVariant
+from .answers.models import StudentTest, StudentTestAnswer
 import nested_admin
 
 
@@ -86,5 +87,3 @@ class StudentTestAnswerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(StudentTestAnswer, StudentTestAnswerAdmin)
-
-

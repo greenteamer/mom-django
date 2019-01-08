@@ -22,11 +22,3 @@ class TestDetail(TemplateView):
 
     def post(self, request, id):
         print(u'>>>> %s', request.method)
-    
-
-
-# def test_detail(request, slug):
-#     context = {
-#         "test": Test.objects.filter(slug=slug).first(),
-#     }
-#     return render(request, 'tests/detail.html', context)

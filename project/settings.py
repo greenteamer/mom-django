@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 
     # rest_framework
     # 'rest_framework.authtoken',
-    'rest_framework',
+    # 'rest_framework',
 
     # graphql
     'graphene_django',
@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     # app
     'core',
     'tests',
+    # 'answers',
     'profiles',
 
     # allauth
@@ -110,13 +111,13 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
-    )
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         # 'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         # 'rest_framework.authentication.TokenAuthentication',
+#     )
+# }
 
 
 WSGI_APPLICATION = 'project.wsgi.application'
