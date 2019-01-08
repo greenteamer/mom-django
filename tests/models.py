@@ -21,7 +21,7 @@ class Test(models.Model):
         return u'%s' % self.name
 
     def get_absolute_url(self):
-        return reverse('tests_test_detail', args=(self.slug,))
+        return reverse('tests_test_detail', args=(self.id,))
 
     def get_update_url(self):
         return reverse('tests_test_update', args=(self.slug,))
@@ -41,7 +41,7 @@ class TestQuestion(models.Model):
     # Relationship Fields
     test = models.ForeignKey(
         'tests.Test',
-        on_delete=models.CASCADE, related_name="tests"
+        on_delete=models.CASCADE, related_name="testQuestions"
     )
 
     class Meta:
@@ -67,7 +67,7 @@ class TestQuestionVariant(models.Model):
     # Relationship Fields
     question = models.ForeignKey(
         'tests.TestQuestion',
-        on_delete=models.CASCADE, related_name="testquestions"
+        on_delete=models.CASCADE, related_name="testQuestionVariants"
     )
 
     class Meta:

@@ -15,12 +15,12 @@ def tests(request):
 class TestDetail(TemplateView):
     template_name = 'tests/detail.html'
 
-    def get_context_data(self, slug, **kwargs):
+    def get_context_data(self, id, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['test'] = Test.objects.filter(slug=slug).first()
+        context['test'] = Test.objects.filter(id=id).first()
         return context
 
-    def post(self, request, slug):
+    def post(self, request, id):
         print(u'>>>> %s', request.method)
     
 

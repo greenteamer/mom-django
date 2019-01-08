@@ -8,6 +8,7 @@ class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Test
         fields = (
+            'id',
             'slug', 
             'name', 
             'created', 
@@ -21,10 +22,12 @@ class TestQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TestQuestion
         fields = (
+            'id',
             'pk', 
             'name', 
             'text', 
             'points', 
+            'test',
         )
 
 
@@ -33,9 +36,11 @@ class TestQuestionVariantSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TestQuestionVariant
         fields = (
+            'id',
             'pk', 
             'name', 
             'value', 
+            'question', 
         )
 
 
@@ -44,6 +49,7 @@ class StudentTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.StudentTest
         fields = (
+            'id',
             'pk', 
             'totalPoints', 
         )
@@ -54,6 +60,7 @@ class StudentTestAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.StudentTestAnswer
         fields = (
+            'id',
             'pk', 
         )
 

@@ -17,6 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from graphene_django.views import GraphQLView
+
+from core.schema import schema
+
 
 urlpatterns = [
     path('', include('core.urls')),
@@ -24,6 +28,7 @@ urlpatterns = [
     path('', include('tests.urls')),
     # path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
     path('nested_admin/', include('nested_admin.urls')),

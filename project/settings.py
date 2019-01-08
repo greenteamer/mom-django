@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     'rest_framework',
 
+    # graphql
+    'graphene_django',
+
     'nested_admin',
 
     # ckeditor
@@ -114,6 +117,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.TokenAuthentication',
     )
 }
+
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
