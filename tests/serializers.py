@@ -53,6 +53,7 @@ class StudentTestSerializer(serializers.ModelSerializer):
             'user',
             'test',
             'totalPoints', 
+            'inProgress',
         )
 
 

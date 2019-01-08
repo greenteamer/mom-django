@@ -87,6 +87,7 @@ class StudentTest(models.Model):
 
     # Fields
     totalPoints = models.PositiveIntegerField(blank=True, null=True)
+    inProgress = models.BooleanField(default=True)
 
     # Relationship Fields
     user = models.ForeignKey(

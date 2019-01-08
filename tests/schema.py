@@ -11,54 +11,16 @@ from tests.models import Test, TestQuestion, TestQuestionVariant, StudentTest, S
 from . import serializers
 
 
+# Test
 class TestType(DjangoObjectType):
     class Meta:
         model = Test
 
 
-class TestQuestionType(DjangoObjectType):
-    class Meta:
-        model = TestQuestion
+class TestQuery(object):
 
-
-class TestQuestionVariantType(DjangoObjectType):
-    class Meta:
-        model = TestQuestionVariant
-
-
-class StudentTestType(DjangoObjectType):
-    class Meta:
-        model = StudentTest
-
-
-class StudentTestAnswerType(DjangoObjectType):
-    class Meta:
-        model = StudentTestAnswer
-
-
-class Query(object):
-
-    # tests
     test = graphene.Field(TestType, id=graphene.Int())
     all_tests = graphene.List(TestType)
-
-    # questions
-    testQuestion = graphene.Field(TestQuestionType, id=graphene.Int())
-    all_test_questions = graphene.List(TestQuestionType)
-
-    # variants
-    testQuestionVariant = graphene.Field(TestQuestionVariantType, id=graphene.Int())
-    all_test_question_variants = graphene.List(TestQuestionVariantType)
-
-    # student tests
-    studentTest = graphene.Field(StudentTestType, id=graphene.Int())
-    all_student_tests = graphene.List(StudentTestType)
-
-    # student test answers
-    studentTestAnswer = graphene.Field(StudentTestAnswerType, id=graphene.Int())
-    all_student_test_answers = graphene.List(StudentTestAnswerType)
-    all_question_answers = graphene.List(StudentTestAnswerType)
-    all_variant_answers = graphene.List(StudentTestAnswerType)
 
     def resolve_test(self, info, **kwargs):
         id = kwargs.get('id')
@@ -69,6 +31,18 @@ class Query(object):
     def resolve_all_tests(self, info, **kwargs):
         return Test.objects.all()
 
+
+# TestQuestion
+class TestQuestionType(DjangoObjectType):
+    class Meta:
+        model = TestQuestion
+
+
+class TestQuestionQuery(object):
+
+    testQuestion = graphene.Field(TestQuestionType, id=graphene.Int())
+    all_test_questions = graphene.List(TestQuestionType)
+
     def resolve_test_question(self, info, **kwargs):
         id = kwargs.get('id')
         if id is not None:
@@ -77,6 +51,18 @@ class Query(object):
 
     def resolve_all_test_questions(self, info, **kwargs):
         return TestQuestion.objects.select_related('test').all()
+
+
+# TestQuestionVariant
+class TestQuestionVariantType(DjangoObjectType):
+    class Meta:
+        model = TestQuestionVariant
+
+
+class TestQuestionVariantQuery(object):
+
+    testQuestionVariant = graphene.Field(TestQuestionVariantType, id=graphene.Int())
+    all_test_question_variants = graphene.List(TestQuestionVariantType)
 
     def resolve_test_question_variant(self, info, **kwargs):
         id = kwargs.get('id')
@@ -87,6 +73,18 @@ class Query(object):
     def resolve_all_test_question_variants(self, info, **kwargs):
         return TestQuestionVariant.objects.select_related('question').all()
 
+
+# StudentTest
+class StudentTestType(DjangoObjectType):
+    class Meta:
+        model = StudentTest
+
+
+class StudentTestQuery(object):
+
+    studentTest = graphene.Field(StudentTestType, id=graphene.Int())
+    all_student_tests = graphene.List(StudentTestType)
+
     def resolve_student_test(self, info, **kwargs):
         id = kwargs.get('id')
         if id is not None:
@@ -96,6 +94,47 @@ class Query(object):
     def resolve_all_student_tests(self, info, **kwargs):
         # return StudentTest.objects.select_related('test').all()
         return StudentTest.objects.all()
+
+
+class StudentTestCreateInput(InputObjectType):
+    test = graphene.Int()
+    totalPoints = graphene.Int(required=False)
+
+
+class StudentTestCreateMutation(graphene.Mutation):
+    studentTest = graphene.Field(StudentTestType)
+
+    class Arguments:
+        input = StudentTestCreateInput(required=True)
+
+    def mutate(self, info, input=None):
+        try:
+            test = Test.objects.get(id=input.test)
+            studentTest = StudentTest(
+                user=info.context.user,
+                test=test
+            )
+            # studentTest.user = info.context.user
+            studentTest.full_clean()
+            studentTest.save()
+            return StudentTestCreateMutation(studentTest=studentTest)
+
+        except ValidationError as e:
+            return StudentTestCreateMutation(studentTest=None, errors=e)
+
+
+# StudentTestAnswer
+class StudentTestAnswerType(DjangoObjectType):
+    class Meta:
+        model = StudentTestAnswer
+
+
+class StudentTestAnswerQuery(object):
+
+    studentTestAnswer = graphene.Field(StudentTestAnswerType, id=graphene.Int())
+    all_student_test_answers = graphene.List(StudentTestAnswerType)
+    all_question_answers = graphene.List(StudentTestAnswerType)
+    all_variant_answers = graphene.List(StudentTestAnswerType)
 
     def resolve_student_test_answer(self, info, **kwargs):
         id = kwargs.get('id')
@@ -113,6 +152,7 @@ class Query(object):
         return StudentTestAnswer.objects.select_related('variantAnswers').all()
 
 
+
 class StudentTestAnswerMutation(SerializerMutation):
     class Meta:
         serializer_class = serializers.StudentTestAnswerSerializer
@@ -121,8 +161,6 @@ class StudentTestAnswerMutation(SerializerMutation):
     def get_serializer_kwargs(cls, root, info, **input):
         user = info.context.user
         requestedUser = User.objects.get(id=input['user'])
-        # input['user'] = '' + user.id
-        # print('>>> input %s', input)
         if user.id != requestedUser.id:
             raise Exception('Authorization failed')
 
@@ -135,42 +173,3 @@ class StudentTestAnswerMutation(SerializerMutation):
                 raise Exception('No such StudentTestAnswer')
 
         return {'data': input, 'partial': True}
-
-
-# class StudentTestMutation(SerializerMutation):
-#     class Meta:
-#         serializer_class = serializers.StudentTestSerializer
-    
-#     @classmethod
-#     def get_serializer_kwargs(cls, root, info, **input):
-#         if 'id' in input:
-#             user = info.context.user
-#             instance = StudentTest.objects.get(id=input['id'], user=user)
-#             if instance:
-#                 return {'instance': instance, 'data': input, 'partial': True}
-#             else:
-#                 raise Exception('No such StudentTest')
-
-#         return {'data': input, 'partial': True}
-
-
-class StudentTestCreateInput(InputObjectType):
-    test = graphene.Int()
-    totalPoints = graphene.Int(required=False)
-
-
-class CreateStudentTestMutation(graphene.Mutation):
-    studentTest = graphene.Field(StudentTestType)
-
-    class Arguments:
-        input = StudentTestCreateInput(required=True)
-
-    @login_required
-    def mutate(self, info, input=None):
-        try:
-            test = StudentTest()
-            return test
-
-        except ValidationError as e:
-            return None
-
