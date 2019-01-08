@@ -12,12 +12,12 @@ from .models import StudentTest, StudentTestAnswer
 # from . import serializers
 
 
-# StudentTest
 class StudentTestType(DjangoObjectType):
     class Meta:
         model = StudentTest
 
 
+# StudentTest QUERY
 class StudentTestQuery(object):
 
     studentTest = graphene.Field(StudentTestType, id=graphene.Int())
@@ -34,8 +34,9 @@ class StudentTestQuery(object):
         return StudentTest.objects.all()
 
 
+# StudentTest CREATE
 class StudentTestCreateInput(InputObjectType):
-    test = graphene.Int()
+    testId = graphene.Int(required=True)
     totalPoints = graphene.Int(required=False)
 
 
@@ -47,7 +48,7 @@ class StudentTestCreateMutation(graphene.Mutation):
 
     def mutate(self, info, input=None):
         try:
-            test = Test.objects.get(id=input.test)
+            test = Test.objects.get(id=input['testId'])
             studentTest = StudentTest(
                 user=info.context.user,
                 test=test
@@ -60,12 +61,38 @@ class StudentTestCreateMutation(graphene.Mutation):
             return StudentTestCreateMutation(studentTest=None, errors=e)
 
 
+# StudentTest UPDATE
+class StudentTestUpdateInput(InputObjectType):
+    id = graphene.Int(required=True)
+    totalPoints = graphene.Int(required=True)
+
+
+class StudentTestUpdateMutation(graphene.Mutation):
+    studentTest = graphene.Field(StudentTestType)
+
+    class Arguments:
+        input = StudentTestUpdateInput(required=True)
+
+    def mutate(self, info, input=None):
+        try:
+            studentTest = StudentTest.objects.get(id=input['id'])
+            studentTest.totalPoints = input['totalPoints']
+            studentTest.full_clean()
+            studentTest.save()
+            return StudentTestUpdateMutation(studentTest=studentTest)
+
+        except ValidationError as e:
+            return StudentTestUpdateMutation(studentTest=None, errors=e)
+
+
 # StudentTestAnswer
+# StudentTestAnswer TYPE
 class StudentTestAnswerType(DjangoObjectType):
     class Meta:
         model = StudentTestAnswer
 
 
+# StudentTestAnswer QUERY
 class StudentTestAnswerQuery(object):
 
     studentTestAnswer = graphene.Field(StudentTestAnswerType, id=graphene.Int())
@@ -89,24 +116,35 @@ class StudentTestAnswerQuery(object):
         return StudentTestAnswer.objects.select_related('variantAnswers').all()
 
 
+# StudentTestAnswer CREATE
+class StudentTestAnswerCreateInput(InputObjectType):
+    testId = graphene.Int(required=True)
+    variantId = graphene.Int(required=True)
+    questionId = graphene.Int(required=True)
+    answer = graphene.String(required=False)
 
-# class StudentTestAnswerMutation(SerializerMutation):
-#     class Meta:
-#         serializer_class = serializers.StudentTestAnswerSerializer
-    
-#     @classmethod
-#     def get_serializer_kwargs(cls, root, info, **input):
-#         user = info.context.user
-#         requestedUser = User.objects.get(id=input['user'])
-#         if user.id != requestedUser.id:
-#             raise Exception('Authorization failed')
 
-#         if 'id' in input:
-#             test = StudentTest.objects.get(id=input['studentTest'], user=user)
-#             instance = StudentTestAnswer.objects.get(id=input['id'], studentTest=test)
-#             if instance:
-#                 return {'instance': instance, 'data': input, 'partial': True}
-#             else:
-#                 raise Exception('No such StudentTestAnswer')
+class StudentTestAnswerCreateMutation(graphene.Mutation):
+    answer = graphene.Field(StudentTestAnswerType)
 
-#         return {'data': input, 'partial': True}
+    class Arguments:
+        input = StudentTestAnswerCreateInput(required=True)
+
+    def mutate(self, info, input=None):
+        try:
+            user = info.context.user
+            studentTest = StudentTest.objects.get(id=input['testId'])
+            question = TestQuestion.objects.get(id=input['questionId'])
+            variant = TestQuestionVariant.objects.get(id=input['variantId'])
+            answer = StudentTestAnswer(
+                user=user,
+                studentTest=studentTest,
+                question=question,
+                variant=variant,
+            )
+            answer.full_clean()
+            answer.save()
+            return StudentTestAnswerCreateMutation(answer=answer)
+
+        except ValidationError as e:
+            return StudentTestAnswerCreateMutation(answer=None, errors=e)

@@ -17,9 +17,9 @@ class Query(
 
 class Mutations(graphene.ObjectType):
     create_student_test = tests.answers.schema.StudentTestCreateMutation.Field()
-    # update_student_test = tests.schema.StudentTestMutation.Field()
+    update_student_test = tests.answers.schema.StudentTestUpdateMutation.Field()
 
-    # create_student_test_answer = tests.schema.StudentTestAnswerMutation.Field()
+    create_student_test_answer = tests.answers.schema.StudentTestAnswerCreateMutation.Field()
     # update_student_test_answer = tests.schema.StudentTestAnswerMutation.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
