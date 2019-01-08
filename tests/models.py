@@ -86,16 +86,16 @@ class TestQuestionVariant(models.Model):
 class StudentTest(models.Model):
 
     # Fields
-    totalPoints = models.PositiveIntegerField()
+    totalPoints = models.PositiveIntegerField(blank=True, null=True)
 
     # Relationship Fields
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE, related_name="users"
+        on_delete=models.CASCADE, related_name="tests"
     )
     test = models.ForeignKey(
         'tests.Test',
-        on_delete=models.CASCADE, related_name="userstest"
+        on_delete=models.CASCADE, related_name="studentsTests"
     )
 
     class Meta:
@@ -116,21 +116,38 @@ class StudentTestAnswer(models.Model):
     answer = RichTextUploadingField(null=True, blank=True)
 
     # Relationship Fields
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="userAnswers"
+    )
     studentTest = models.ForeignKey(
         'tests.StudentTest',
         on_delete=models.CASCADE,
-        related_name="studenttests",
+        related_name="studentTestAnswers",
+    )
+    question = models.ForeignKey(
+        'tests.TestQuestion',
+        on_delete=models.CASCADE,
+        related_name="questionAnswers",
+        null=True,
+        blank=True,
     )
     variant = models.ForeignKey(
         'tests.TestQuestionVariant',
         on_delete=models.CASCADE,
-        related_name="testquestionvariants",
+        related_name="variantAnswers",
         null=True,
         blank=True,
     )
 
     class Meta:
         ordering = ('-pk',)
+    
+    # def save(self, request, *args, **kwargs):
+    #     if not self.user:
+    #         self.user = request.user
+    #     super().save(*args, **kwargs)
 
     def __unicode__(self):
         return u'%s' % self.pk

@@ -50,7 +50,8 @@ class StudentTestSerializer(serializers.ModelSerializer):
         model = models.StudentTest
         fields = (
             'id',
-            'pk', 
+            'user',
+            'test',
             'totalPoints', 
         )
 
@@ -61,7 +62,11 @@ class StudentTestAnswerSerializer(serializers.ModelSerializer):
         model = models.StudentTestAnswer
         fields = (
             'id',
-            'pk', 
+            'studentTest',
+            'answer',
+            'question',
+            'variant',
+            'user',
         )
 
 
