@@ -144,6 +144,8 @@ class StudentTestAnswerCreateMutation(graphene.Mutation):
             )
             answer.full_clean()
             answer.save()
+            studentTest.inProgress = False
+            studentTest.save()
             return StudentTestAnswerCreateMutation(studentTest=studentTest)
 
         except ValidationError as e:
