@@ -125,7 +125,7 @@ class StudentTestAnswerCreateInput(InputObjectType):
 
 
 class StudentTestAnswerCreateMutation(graphene.Mutation):
-    answer = graphene.Field(StudentTestAnswerType)
+    studentTest = graphene.Field(StudentTestType)
 
     class Arguments:
         input = StudentTestAnswerCreateInput(required=True)
@@ -144,7 +144,7 @@ class StudentTestAnswerCreateMutation(graphene.Mutation):
             )
             answer.full_clean()
             answer.save()
-            return StudentTestAnswerCreateMutation(answer=answer)
+            return StudentTestAnswerCreateMutation(studentTest=studentTest)
 
         except ValidationError as e:
-            return StudentTestAnswerCreateMutation(answer=None, errors=e)
+            return StudentTestAnswerCreateMutation(studentTest=None, errors=e)
